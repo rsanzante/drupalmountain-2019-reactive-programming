@@ -72,10 +72,10 @@
             <span>Reactive Programming</span>
           </div>
           <ul>
-            <li class="fragment">A way to manage asynchronicity.</li>
-            <li class="fragment">This is NOT a talk about React.</li>
-            <li class="fragment">Based on the ReactiveX library.</li>
-            <li class="fragment">Usable in many languages in addition to JavaScript: PHP, Java, Scala, C#, C++, Pyhton and others.</li>
+            <li>A way to manage asynchronicity.</li>
+            <li>This is NOT a talk about React.</li>
+            <li>Based on the ReactiveX library.</li>
+            <li>Usable in many languages in addition to JavaScript: PHP, Java, Scala, C#, C++, Pyhton and others.</li>
           </ul>
         </section>
 
@@ -86,10 +86,10 @@
             <span>Advantages</span>
           </div>
           <ul>
-            <li class="fragment">It greatly simplifies asynchronous working.</li>
-            <li class="fragment">Very easy to combine and manage asynchronous data sources.</li>
-            <li class="fragment">Generates a shorter, simpler and more intuitive code<sup>*</sup>.</li>
-            <li class="fragment">Maintainability.</li>
+            <li>It greatly simplifies asynchronous working.</li>
+            <li>Very easy to combine and manage asynchronous data sources.</li>
+            <li>Generates a shorter, simpler and more intuitive code<sup>*</sup>.</li>
+            <li>Maintainability.</li>
           </ul>
           <aside class="notes">
               The asterisk is there because while the sentence is true, you have to 'deprogram' yourself a little bit from the structured, object-oriented programming paradigm to read the code.</li>
@@ -103,13 +103,13 @@
             <span>Asynchronicity</span>
           </div>
           <ul>
-            <li class="fragment">Unpredictable events over time.</li>
-            <li class="fragment">The browser environment is asynchronous.</li>
-            <li class="fragment">AJAX.</li>
-            <li class="fragment">User interaction (mouse, keyboard, etc).</li>
-            <li class="fragment">Timers or animations</li>
-            <li class="fragment">WebSockets.</li>
-            <li class="fragment">Workers.</li>
+            <li>Unpredictable events over time.</li>
+            <li>The browser environment is asynchronous.</li>
+            <li>AJAX.</li>
+            <li>User interaction (mouse, keyboard, etc).</li>
+            <li>Timers or animations</li>
+            <li>WebSockets.</li>
+            <li>Workers.</li>
           </ul>
           <aside class="notes">
               Events that happen over time that we can't predict. This is very common in the browser because it's an asynchronous environment. If we examine a Drupal request we find that the exeuction path is more o less predictible (complex but predictible), and data is available when needed (when a database query is done we asume that result, success or failure, is available in the next line of code, the same for reading a file). In browser this is not true. We don't know when many operations will return their data: AJAX operations are the main example, but it's the same for workers, for example. User interaction, WebSockets, timers and animations are other sources of asynchronicty.
@@ -125,8 +125,8 @@
             <span>Callbacks</span>
           </div>
           <ul>
-            <li class="fragment">Simple reaction to an event.</li>
-            <li class="fragment">
+            <li>Simple reaction to an event.</li>
+            <li>
              Function call (listeners).
              <pre>
                <code data-trim>
@@ -136,8 +136,8 @@ jQuery('#grip').click(function() {
                </code>
              </pre>
           </li>
-           <li class="fragment">Coding complex reactions is hard.</li>
-           <li class="fragment"><i>Callback hell</i>.</li>
+           <li>Coding complex reactions is hard.</li>
+           <li><i>Callback hell</i>.</li>
           </ul>
           <aside class="notes">
             <ul>
@@ -192,10 +192,10 @@ doc = memResponse;
             <span>Promises</span>
           </div>
           <ul>
-          <li class="fragment">Objects that wrap asynchronous operations and react when there is a result.</li>
-          <li class="fragment">They're almost callbacks turned into objects.</li>
-          <li class="fragment">They greatly improve flow and error management.</li>
-          <li class="fragment">Added to ES2015 (ECMAScript 6).</li>
+          <li>Objects that wrap asynchronous operations and react when there is a result.</li>
+          <li>They're almost callbacks turned into objects.</li>
+          <li>They greatly improve flow and error management.</li>
+          <li>Added to ES2015 (ECMAScript 6).</li>
           </ul>
           <aside class="notes">
             <ul>
@@ -215,11 +215,11 @@ doc = memResponse;
             <span>Promises</span>
           </div>
           <ul>
-            <li class="fragment">They are resolved only once: they return a single value.</li>
-            <li class="fragment">Following the execution flow may not be trivial.</li>
-            <li class="fragment">They are not lazy.</li>
-            <li class="fragment">They are not cancelables.</li>
-            <li class="fragment">Promise hell.</li>
+            <li>They are resolved only once: they return a single value.</li>
+            <li>Following the execution flow may not be trivial.</li>
+            <li>They are not lazy.</li>
+            <li>They are not cancelables.</li>
+            <li>Promise hell.</li>
           </ul>
           <aside class="notes">
           <ul>
@@ -242,11 +242,11 @@ doc = memResponse;
             <span>Reactive programming</span>
           </div>
           <ul>
-            <li class="fragment">It brings functional programming capabilities to imperative programming.</li>
-            <li class="fragment">Programming using asynchronous data streams.</li>
-            <li class="fragment">Declaration of data pipes that process and transform the data that crosses them.</li>
-            <li class="fragment">Declaration of reactions to changes.</li>
-            <li class="fragment">Similar example: how Angular, React and Vue.js update rendering on data change.</li>
+            <li>It brings functional programming capabilities to imperative programming.</li>
+            <li>Programming using asynchronous data streams.</li>
+            <li>Declaration of data pipes that process and transform the data that crosses them.</li>
+            <li>Declaration of reactions to changes.</li>
+            <li>Similar example: how Angular, React and Vue.js update rendering on data change.</li>
           </ul>
          <aside class="notes">
           <strong>Before explaining why Reactive Programming is a great way of dealing with asynchronicity let's see the basics of Reactive Programming. We need it to believe what I'm claiming. So let's see the necessary concepts.</strong>
@@ -259,10 +259,10 @@ doc = memResponse;
             <span>Plumbing!</span>
           </div>
           <ul>
-            <li class="fragment">Is about creating data pipes.</li>
-            <li class="fragment">The pipe that certain data crosses.</li>
-            <li class="fragment">The pipe transforms the data</li>
-            <li class="fragment">When data reaches the end of the pipe a reaction is triggered.</li>
+            <li>Is about creating data pipes.</li>
+            <li>The pipe that certain data crosses.</li>
+            <li>The pipe transforms the data</li>
+            <li>When data reaches the end of the pipe a reaction is triggered.</li>
           </ul>
           <aside class="notes">
             <ul>
@@ -282,7 +282,7 @@ doc = memResponse;
           <div class="header">
             <span>Simple pipe</span>
           </div>
-          <div class="fragment">
+          <div>
             <span>Example: Click event listener.</span>
             <pre>
               <code data-trim>
@@ -291,7 +291,7 @@ jQuery('#grip').click(function() {
 });
               </code>
             </pre>
-            <img  class="fragment" src="assets/images/camino_simple2_en.png">
+            <img  src="assets/images/camino_simple2_en.png">
           </div>
           <aside class="notes">
           This is an example of a very simple data path, the simplest of all. An event is generated in the browser, which is captured and the appropriate action is taken, in this case showing an element of the DOM. There we see a flow of data that goes from the broadcast of the event to its reception in the listener. Nothing mysterious, we do it every day.
@@ -310,7 +310,7 @@ jQuery('#grip').click(function() {
           </div>
           <img src="assets/images/camino_transformaciones_en.png">
 
-          <div class="fragment">
+          <div>
            <span>Example: From a click to an AJAX request, and then to a instantiated object list.
            <img src="assets/images/camino_transformaciones_ejemplo_en.png">
           </div>
@@ -332,9 +332,9 @@ jQuery('#grip').click(function() {
             <span>Observables/Streams</span>
           </div>
           <ul>
-            <li class="fragment">Observables from Observer pattern.</li>
-            <li class="fragment">Data streams.</li>
-            <li class="fragment">They emmit data until they finish or an error is triggered.</li>
+            <li>Observables from Observer pattern.</li>
+            <li>Data streams.</li>
+            <li>They emmit data until they finish or an error is triggered.</li>
           </ul>
         <aside class="notes">
             First main piece: Observables
@@ -360,9 +360,9 @@ jQuery('#grip').click(function() {
             <span>Marble diagrams</span>
           </div>
           <ul>
-            <li class="fragment">Simple way to show data flow over time.</li>
-            <li class="fragment">Data flow that emits 4 elements and then finishes.<img src="assets/images/marble_ok.png"></li>
-            <li class="fragment">Data flow that emits 3 elements and then emits an error.<img src="assets/images/marble_error.png"></li>
+            <li>Simple way to show data flow over time.</li>
+            <li>Data flow that emits 4 elements and then finishes.<img src="assets/images/marble_ok.png"></li>
+            <li>Data flow that emits 3 elements and then emits an error.<img src="assets/images/marble_error.png"></li>
           </ul>
           <aside class="notes">
             Visualizing how data traverses the pipe is very important to understand what is happening. Marble diagrams were designed for this purpose. They are read from left to right, representing time. Each ball is a value emitted by the Observable. The vertical line indicates that the flow has ended, and the cross indicates that it has emitted an error. In both cases the flow is closed.
@@ -383,11 +383,11 @@ jQuery('#grip').click(function() {
             <span>Operators</span>
           </div>
           <ul>
-            <li class="fragment">They allow to chain streams.</li>
-            <li class="fragment">They allow to transform the stream data.</li>
-            <li class="fragment">They allow to modulate streams.</li>
-            <li class="fragment">They can create streams.</li>
-            <li class="fragment">They can combine streams</li>
+            <li>They allow to chain streams.</li>
+            <li>They allow to transform the stream data.</li>
+            <li>They allow to modulate streams.</li>
+            <li>They can create streams.</li>
+            <li>They can combine streams</li>
           </ul>
           <aside class="notes">
             The second fundamental part is the operators. In the previous diagram they would be the boxes. It is what allows data to be transformed, in more or less complex ways, but it also allows flows to be modulated (for example, preventing data from passing if it does not meet certain condition). They also serve to create Observables (for example, to create an Observable from an event of the DOM, so that when that event occurs the Observable emits the event).
@@ -434,12 +434,12 @@ jQuery('#grip').click(function() {
             <span>Ej: Chronometre</span>
           </div>
           <ul>
-            <li class="fragment">Manual chronometre that accumulates time.</li>
-            <li class="fragment">A button to enable it.</li>
-            <li class="fragment">Another button to pause/continue.</li>
+            <li>Manual chronometre that accumulates time.</li>
+            <li>A button to enable it.</li>
+            <li>Another button to pause/continue.</li>
           </ul>
           <div>
-              <a class="fragment" href="https://codepen.io/sanzante/pen/vbomwK">https://codepen.io/sanzante/pen/vbomwK</a>
+              <a href="https://codepen.io/sanzante/pen/vbomwK">https://codepen.io/sanzante/pen/vbomwK</a>
           </div>
 
           <aside class="notes">
@@ -520,9 +520,9 @@ jQuery('#grip').click(function() {
             <span>"Button killerism"</span>
           </div>
           <ul>
-            <li class="fragment">Detect clicks in a row (double, triple, etc).</li>
-            <li class="fragment">Time is counted from the first click.</li>
-            <a class="fragment" href="https://codepen.io/sanzante/pen/KJOydx">https://codepen.io/sanzante/pen/KJOydx</a>
+            <li>Detect clicks in a row (double, triple, etc).</li>
+            <li>Time is counted from the first click.</li>
+            <a href="https://codepen.io/sanzante/pen/KJOydx">https://codepen.io/sanzante/pen/KJOydx</a>
           </ul>
           <aside class="notes">
             Let's do the part that detects when we're crushing the button.
@@ -643,12 +643,12 @@ jQuery('#grip').click(function() {
             <span>Why Reactive Programming</span>
           </div>
          <ul>
-            <li class="fragment">You can express from simple reactions to extremely complex reactions to change.</li>
-            <li class="fragment">No more hells.</li>
-            <li class="fragment">Observables <i>resolve</i> as many times as needed.</li>
-            <li class="fragment">Execution flow is intuitive <sup>*</sup>.</li>
-            <li class="fragment">It's lazy.</li>
-            <li class="fragment">It's cancellable.</li>
+            <li>You can express from simple reactions to extremely complex reactions to change.</li>
+            <li>No more hells.</li>
+            <li>Observables <i>resolve</i> as many times as needed.</li>
+            <li>Execution flow is intuitive <sup>*</sup>.</li>
+            <li>It's lazy.</li>
+            <li>It's cancellable.</li>
           </ul>
 
           <aside class="notes">
@@ -670,10 +670,10 @@ jQuery('#grip').click(function() {
             <span>When to use Reactive Programming?</span>
           </div>
           <ul>
-            <li class="fragment">With many ashynchonous data sources.</li>
-            <li class="fragment">Complex interactions.</li>
-            <li class="fragment">Complex interdependency.</li>
-            <li class="fragment">To avoid internal state to manage asynchronous events.</li>
+            <li>With many ashynchonous data sources.</li>
+            <li>Complex interactions.</li>
+            <li>Complex interdependency.</li>
+            <li>To avoid internal state to manage asynchronous events.</li>
           </ul>
           <aside class="notes">
             <ul>
@@ -717,11 +717,11 @@ jQuery('#grip').click(function() {
             <span>Observables notes</span>
           </div>
           <ul>
-            <li class="fragment">They are not EventEmitter.</li>
-            <li class="fragment">Can be asyncronous or synchronous.</li>
-            <li class="fragment">Can be cold o hot.</li>
-            <li class="fragment">Can be multicast o unicast.</li>
-            <li class="fragment">Can share or not the data source with their subscriptors.</li>
+            <li>They are not EventEmitter.</li>
+            <li>Can be asyncronous or synchronous.</li>
+            <li>Can be cold o hot.</li>
+            <li>Can be multicast o unicast.</li>
+            <li>Can share or not the data source with their subscriptors.</li>
           </ul>
         </section>
 
@@ -731,7 +731,7 @@ jQuery('#grip').click(function() {
             <span>Why to adopt?</span>
           </div>
 
-            <div class="fragment">
+            <div>
               Because others have already done it.
               <br>
               <img src="assets/images/adopters.png">
@@ -745,12 +745,12 @@ jQuery('#grip').click(function() {
             <span>Why to adopt?</span>
           </div>
           <ul>
-            <li class="fragment">It can express very complex models.</li>
-            <li class="fragment">It handles any data source.</li>
-            <li class="fragment">Observables: proposed for standard, currently in stage 1.</li>
-            <li class="fragment">Less code, improved maintanibility.</li>
-            <li class="fragment">Available in many languages.</li>
-            <li class="fragment">Asynchronicity.</li>
+            <li>It can express very complex models.</li>
+            <li>It handles any data source.</li>
+            <li>Observables: proposed for standard, currently in stage 1.</li>
+            <li>Less code, improved maintanibility.</li>
+            <li>Available in many languages.</li>
+            <li>Asynchronicity.</li>
           </ul>
           <aside class="notes">
             <strong>If you deal with asynchronicity you probably may beneficit using Reactive Programming.</strong>
@@ -764,11 +764,11 @@ jQuery('#grip').click(function() {
             <span>Links</span>
           </div>
           <ul>
-            <li class="fragment">The introduction to Reactive Programming you've been missing: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754</li>
-            <li class="fragment">Interactive marble diagrams: http://rxmarbles.com/</li>
-            <li class="fragment">Rx Visualizer: https://rxviz.com/</li>
-            <li class="fragment">ReactiveX: http://reactivex.io/</li>
-            <li class="fragment">Ben Lesh: https://medium.com/@benlesh/</li>
+            <li>The introduction to Reactive Programming you've been missing: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754</li>
+            <li>Interactive marble diagrams: http://rxmarbles.com/</li>
+            <li>Rx Visualizer: https://rxviz.com/</li>
+            <li>ReactiveX: http://reactivex.io/</li>
+            <li>Ben Lesh: https://medium.com/@benlesh/</li>
           </ul>
         </section>
 
