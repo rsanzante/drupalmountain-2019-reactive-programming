@@ -1,0 +1,823 @@
+<doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Reactive Programming: Dealing with Asynchronicity | Drupal Mountain Camp Switzerland 2019</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/simple.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="sponsor up">
+      <img src="assets/images/dmlogo-s-r.png" class="logo"><span>Drupal Mountain Camp Switzerland 2019</span>
+    </div>
+    <div class="sponsor down">
+      <span>Reactive Programming: Dealing with Asynchronicity<strong>&nbsp; @sanzante</strong></span>
+    </div>
+    <div class="reveal">
+      <div class="slides">
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <img src="assets/images/dmlogo-s.png" class="logo">
+          <div class="wrap-ovl">
+            <div class="session-title">
+              Reactive Programming: Dealing with Asynchronicity
+            </div>
+            <br>
+            <br>
+            Ricardo Sanz
+            <br>
+            <span class="xsmall"> sanzante / tunic</span>
+            <br>
+          </div>
+          <br>
+          <a href="https://drupalmountaincamp.ch/" class="ddlink xsmall">drupalmountaincamp.ch</a>
+          <div class="spacer">
+        </section>
+
+
+
+        <section>
+            <img src="assets/images/sanzante.jpg" class="profile-photo">
+            <p>
+              <span>Ricardo Sanz</span>
+              <br>
+              <span class="xsmall"><em>Drupal Developer &amp; DevOps</em></span>
+              <br>
+              <a class="xsmall" href="https://drupal.org/u/tunic" target="_blank">drupal.org/u/tunic</a>
+              <br>
+              <a class="xsmall" href="https://twitter.com/sanzante" target="_blank">sanzante @ Twitter</a>
+            </p>
+            <img src="assets/images/metadrop-logo.svg" class="metadrop-logo">
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Reactive Programming</span>
+          </div>
+          <ul>
+            <li class="fragment">A way to manage asynchronicity.</li>
+            <li class="fragment">This is NOT a talk about React.</li>
+            <li class="fragment">Based on the ReactiveX library.</li>
+            <li class="fragment">Usable in many languages in addition to JavaScript: PHP, Java, Scala, C#, C++, Pyhton and others.</li>
+          </ul>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Advantages</span>
+          </div>
+          <ul>
+            <li class="fragment">It greatly simplifies asynchronous working.</li>
+            <li class="fragment">Very easy to combine and manage asynchronous data sources.</li>
+            <li class="fragment">Generates a shorter, simpler and more intuitive code<sup>*</sup>.</li>
+            <li class="fragment">Maintainability.</li>
+          </ul>
+          <aside class="notes">
+              The asterisk is there because while the sentence is true, you have to 'deprogram' yourself a little bit from the structured, object-oriented programming paradigm to read the code.</li>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Asynchronicity</span>
+          </div>
+          <ul>
+            <li class="fragment">Unpredictable events over time.</li>
+            <li class="fragment">The browser environment is asynchronous.</li>
+            <li class="fragment">AJAX.</li>
+            <li class="fragment">User interaction (mouse, keyboard, etc).</li>
+            <li class="fragment">Timers or animations</li>
+            <li class="fragment">WebSockets.</li>
+            <li class="fragment">Workers.</li>
+          </ul>
+          <aside class="notes">
+              Events that happen over time that we can't predict. This is very common in the browser because it's an asynchronous environment. If we examine a Drupal request we find that the exeuction path is more o less predictible (complex but predictible), and data is available when needed (when a database query is done we asume that result, success or failure, is available in the next line of code, the same for reading a file). In browser this is not true. We don't know when many operations will return their data: AJAX operations are the main example, but it's the same for workers, for example. User interaction, WebSockets, timers and animations are other sources of asynchronicty.
+            <br>
+            <br>
+            <strong>How we can manage this uncertainty, this asynchronicty?</strong>
+
+          </aside>
+        </section>
+
+        <section>
+          <div class="header">
+            <span>Callbacks</span>
+          </div>
+          <ul>
+            <li class="fragment">Simple reaction to an event.</li>
+            <li class="fragment">
+             Function call (listeners).
+             <pre>
+               <code data-trim>
+jQuery('#grip').click(function() {
+  jQuery('#panel').slideUp();
+});
+               </code>
+             </pre>
+          </li>
+           <li class="fragment">Coding complex reactions is hard.</li>
+           <li class="fragment"><i>Callback hell</i>.</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>The simple and classic approach.</li>
+              <li>When an event is received a function is called. This function process the event and its data. Example: listeners</li>
+              <li>Becasue of their simplicity they don't allow many possibilities. Only recommended for simple reactions upon events.</li>
+              <li>Things start to get complicated when within a callback you need more actions to process the response that require more callbacks.</li>
+            </ul>
+          </aside>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>Callback hell</span>
+          </div>
+            <pre>
+              <code data-trim>
+var doc;
+memStorage.get(docId, response => {
+doc = memResponse;
+  if (!memResponse) {
+    localStorage.get(docId, localResponse => {
+      doc = localResponse;
+      if (!localResponse) {
+        serverStorage.get(docId, serverResponse => {
+          doc = serverResponse;
+          if (!serverResponse) {
+            // Error.
+          }
+      });
+    }
+  });
+});
+              </code>
+            </pre>
+          <aside class="notes">
+            <ul>
+              <li>Callback hell is typical from callbacks. It's a nested code because of successive callbacks.</li>
+              <li>This code is not easy to read, is not clean and is not elegant.</li>
+            </ul>
+            <br>
+            <br>
+            <strong>What was the solution to this problem? Promises.</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Promises</span>
+          </div>
+          <ul>
+          <li class="fragment">Objects that wrap asynchronous operations and react when there is a result.</li>
+          <li class="fragment">They're almost callbacks turned into objects.</li>
+          <li class="fragment">They greatly improve flow and error management.</li>
+          <li class="fragment">Added to ES2015 (ECMAScript 6).</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>They allow to define a reaction on succees and a reaction on error. They also allow to chain actions for a response.</li>
+            </ul>
+            <br>
+            <br>
+            <strong>They are a big improvement, but they have certain limitations.</strong>
+          <aside>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Promises</span>
+          </div>
+          <ul>
+            <li class="fragment">They are resolved only once: they return a single value.</li>
+            <li class="fragment">Following the execution flow may not be trivial.</li>
+            <li class="fragment">They are not lazy.</li>
+            <li class="fragment">They are not cancelables.</li>
+            <li class="fragment">Promise hell.</li>
+          </ul>
+          <aside class="notes">
+          <ul>
+            <li>If you want to repeat an action you must run the code that makes the action and processes the response of the promise again. Usually you can do it calling again the function that manages this, so it's not a big deal.. But you'll need to control this re-execution process.<br>
+            This works well for managing setTimeouts or simple HTTP request responses, but falls short when dealing with setInterval or WebSockets, for example. Once the promise has been fullfilled no longer returns values. Get more info about this here: <a href="https://medium.com/@mpodlasin/promises-vs-observables-4c123c51fe13">Promises vs Observables</a>, by Mateusz Podlasin.</li>
+            <li>See article by Nolan Lawson, PouchDB core team developer: <a href="https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html">We have a problem with promises</a></li>
+            <li>As the promise is created the code that tries to solve it is executed immediately. It is assumed that the answer is needed now.</li>
+            <li>Except using some libraries like Bluebird, once the promise is created it will try to resolve or fail, but it cannot be cancelled (although it can be ignored, of course). This can result in wasted resources.</li>
+          </ul>
+          <br>
+          <br>
+          <strong>Although they are a great improvement over callbacks, the following strategy is even more powerful.</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Reactive programming</span>
+          </div>
+          <ul>
+            <li class="fragment">It brings functional programming capabilities to imperative programming.</li>
+            <li class="fragment">Programming using asynchronous data streams.</li>
+            <li class="fragment">Declaration of data pipes that process and transform the data that crosses them.</li>
+            <li class="fragment">Declaration of reactions to changes.</li>
+            <li class="fragment">Similar example: how Angular, React and Vue.js update rendering on data change.</li>
+          </ul>
+         <aside class="notes">
+          <strong>Before explaining why Reactive Programming is a great way of dealing with asynchronicity let's see the basics of Reactive Programming. We need it to believe what I'm claiming. So let's see the necessary concepts.</strong>
+          </aside>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>Plumbing!</span>
+          </div>
+          <ul>
+            <li class="fragment">Is about creating data pipes.</li>
+            <li class="fragment">The pipe that certain data crosses.</li>
+            <li class="fragment">The pipe transforms the data</li>
+            <li class="fragment">When data reaches the end of the pipe a reaction is triggered.</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>In Reactive Programming you create pipes for the data, as said before: data pipes that process and transform the data that crosses them.</li>
+            </ul>
+            <br>
+            <br>
+            <strong>With those pipes we build a plumbing system to move our asynchronous data around, transform it and affect our application components.</strong>
+            <br>
+            <strong>What would be a simple pipe?</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Simple pipe</span>
+          </div>
+          <div class="fragment">
+            <span>Example: Click event listener.</span>
+            <pre>
+              <code data-trim>
+jQuery('#grip').click(function() {
+  jQuery('#panel').slideUp();
+});
+              </code>
+            </pre>
+            <img  class="fragment" src="assets/images/camino_simple2_en.png">
+          </div>
+          <aside class="notes">
+          This is an example of a very simple data path, the simplest of all. An event is generated in the browser, which is captured and the appropriate action is taken, in this case showing an element of the DOM. There we see a flow of data that goes from the broadcast of the event to its reception in the listener. Nothing mysterious, we do it every day.
+          <br>
+          <br>
+          <strong>What would be a complex pipe?</strong>
+
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Complex pipe</span>
+          </div>
+          <img src="assets/images/camino_transformaciones_en.png">
+
+          <div class="fragment">
+           <span>Example: From a click to an AJAX request, and then to a instantiated object list.
+           <img src="assets/images/camino_transformaciones_ejemplo_en.png">
+          </div>
+          <aside class="notes">
+          Pipes with transformations are the interesting ones. For example, the transition from one click to a list of objects loaded from a service. At some point the user clicks a button. This click becomes a URL that serves, for example, a competitions's classification  data list: athletes, points obtained, nationality, name, etc. That URL then becomes the data contained in that URL, which will be a JSON. Following that the JSON content is transformed into instances of a custom class that contains the data received. Lastly, the final action occurs, which is to assign these objects to an internal variable. If we use an Angular framework, it will happily paint those objects on the screen once they are assigned to the variable.
+
+          So, the initial data, a click, has travelled a pipe that has been transforming that data, until the final action, the assignment to a variable. This is nothing new, it's done all the time using callbacks or promises. We could chain the output of one calling to another, and deal with the complexity that is produced. The good thing of Reactive Programming is how easy is to define this data management, using those defined pipes, creating that plumbing system.
+          <br>
+          <br>
+
+          <strong>Well, now we have to take a deep breath to get into the thick part of the talk. How do we create these data pipes? How do we declare the reactions to change?</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Observables/Streams</span>
+          </div>
+          <ul>
+            <li class="fragment">Observables from Observer pattern.</li>
+            <li class="fragment">Data streams.</li>
+            <li class="fragment">They emmit data until they finish or an error is triggered.</li>
+          </ul>
+        <aside class="notes">
+            First main piece: Observables
+            <br>
+            <br>
+            <ul>
+              <li>Let's say that are just things that can be observed, boxes where the data comes from, basically they are the observed part of the Observer pattern.</li>
+              <li>They are more than just data stream, but I don't want to get into thick technical definitions, so let's say they are data streams.</li>
+              <li>In the previous diagrams you could say that they are the little arrows that connect the different boxes.</li>
+            </ul>
+            If you want a deep explanations see this article by Ben Lesh: <a href="https://medium.com/@benlesh/learning-observable-by-building-observable-d5da57405d87">Learning Observable By Building Observable</a>
+            <br>
+            <br>
+            <strong>Observables change over time and are difficult to visaulize. Becasue of this, we have the marble diagrams.</strong>
+
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Marble diagrams</span>
+          </div>
+          <ul>
+            <li class="fragment">Simple way to show data flow over time.</li>
+            <li class="fragment">Data flow that emits 4 elements and then finishes.<img src="assets/images/marble_ok.png"></li>
+            <li class="fragment">Data flow that emits 3 elements and then emits an error.<img src="assets/images/marble_error.png"></li>
+          </ul>
+          <aside class="notes">
+            Visualizing how data traverses the pipe is very important to understand what is happening. Marble diagrams were designed for this purpose. They are read from left to right, representing time. Each ball is a value emitted by the Observable. The vertical line indicates that the flow has ended, and the cross indicates that it has emitted an error. In both cases the flow is closed.
+            <br>
+            <br>
+            More details about marble diagrams: <a href="https://medium.com/@jshvarts/read-marble-diagrams-like-a-pro-3d72934d3ef5">Understanding Marble Diagrams for Reactive Streams</a>.
+            <br>
+            <br>
+            An interactive marble diagram: <a href="https://rxviz.com/examples/mouse-move">Mouse move example</a>.
+
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Operators</span>
+          </div>
+          <ul>
+            <li class="fragment">They allow to chain streams.</li>
+            <li class="fragment">They allow to transform the stream data.</li>
+            <li class="fragment">They allow to modulate streams.</li>
+            <li class="fragment">They can create streams.</li>
+            <li class="fragment">They can combine streams</li>
+          </ul>
+          <aside class="notes">
+            The second fundamental part is the operators. In the previous diagram they would be the boxes. It is what allows data to be transformed, in more or less complex ways, but it also allows flows to be modulated (for example, preventing data from passing if it does not meet certain condition). They also serve to create Observables (for example, to create an Observable from an event of the DOM, so that when that event occurs the Observable emits the event).
+            <br>
+            <br>
+            <strong>Let's see a couple of examples.</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Operators</span>
+          </div>
+          <div>
+            <span>Filter operator, filters values that don't match the condition.</span>
+            <img src="assets/images/marble_filter.png">
+          </div>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Operators</span>
+          </div>
+          <div>
+            <span>Map operator, transforms stream data.</span>
+            <img src="assets/images/marble_map.png">
+          </div>
+          <aside class="notes">
+            See interactive marble diagrams to know how different operators work in <a href="http://rxmarbles.com/">RxJS Marbles</a>.
+            <br>
+            <br>
+            <strong>Let's see some code examples.</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Ej: Chronometre</span>
+          </div>
+          <ul>
+            <li class="fragment">Manual chronometre that accumulates time.</li>
+            <li class="fragment">A button to enable it.</li>
+            <li class="fragment">Another button to pause/continue.</li>
+          </ul>
+          <div>
+              <a class="fragment" href="https://codepen.io/sanzante/pen/vbomwK">https://codepen.io/sanzante/pen/vbomwK</a>
+          </div>
+
+          <aside class="notes">
+            Let's create a chronometre using streams. The example is a bit absurd, it does not show the power of the streams, but it does show how they work.
+          </aside>
+        </section>
+
+         <section>
+          <div>
+           <img src="assets/images/chrono.png">
+          </div>
+        </section>
+
+        <section>
+          <section>
+            <pre>
+              <code data-trim data-noescape>
+<span class="fragment">var clockValue = 0;</span>
+<span class="fragment">var clockOn = true;</span>
+
+<span class="fragment">const btS$ = fromEvent(buttonStart, 'click');</span>
+<span class="fragment">const btP$ = fromEvent(buttonPause, 'click');</span>
+<span class="fragment">const clock$ = interval(1000);</span>
+
+<span class="fragment">btP$.subscribe(() => clockOn = !clockOn);</span>
+
+<span class="fragment">clock$.subscribe(x => output1.innerHTML = x);</span>
+
+<span class="fragment">clock$</span>
+  <span class="fragment">.pipe(</span>
+    <span class="fragment">combineLatest(btS$, v => v),</span>
+    <span class="fragment">filter(() => clockOn))</span>
+  <span class="fragment">.subscribe(() => output2.innerHTML = clockValue++);</span>
+              </code>
+            </pre>
+          </section>
+
+
+
+          <section>
+            <div class="header">
+              <span>Event diagram</span>
+            </div>
+            <br>
+            <pre>
+  clock$  ---1---2---3---4---5---6---7---8---9------>
+                    do
+          ---1---2---3---4---5---6---7---8---9------>
+  btS$    --------x--------------------------------->
+                  combineLatest
+          --------2--3---4---5---6---7---8---9------>
+                  filter (clockOn)
+          --------2--3---4---6-----------8---9------>
+
+  btP$    ---------------------x--------x----------->
+  clockV  000000001112222333344444444444455556666--->
+  clockOn 111111111111111111111000000000011111111--->
+
+            </pre>
+          </section>
+        </section>
+
+
+
+        <section data-background-color="#000000">
+          <div class="header">
+            <span>Decathlon</span>
+          </div>
+          <div>
+            <img src="assets/images/decathlon.png">
+          </div>
+          <span>¡Button killer!<span>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>"Button killerism"</span>
+          </div>
+          <ul>
+            <li class="fragment">Detect clicks in a row (double, triple, etc).</li>
+            <li class="fragment">Time is counted from the first click.</li>
+            <a class="fragment" href="https://codepen.io/sanzante/pen/KJOydx">https://codepen.io/sanzante/pen/KJOydx</a>
+          </ul>
+          <aside class="notes">
+            Let's do the part that detects when we're crushing the button.
+          </aside>
+        </section>
+
+
+
+
+        <section>
+          <pre><code data-trim data-noescape><span class="fragment">var button = document.querySelector('.this');</span>
+<span class="fragment">var clickStream = fromEvent(button, 'click');</span>
+<span class="fragment">var text = document.querySelector('h2');</span>
+<span class="fragment">var multiClickStream = clickStream.pipe(</span>
+    <span class="fragment">buffer(interval(660)),</span>
+    <span class="fragment">map(list => list.length),</span>
+    <span class="fragment">filter(x => x >= 2));</span>
+
+<span class="fragment">multiClickStream.subscribe(numclicks => {
+    text.appendChild(createItem(1));
+});<span>
+
+<span class="fragment">multiClickStream.pipe(delay(3000))</span>
+<span class="fragment">    .subscribe(suggestion => {
+      text.removeChild(h2elem.firstChild)
+    });</span></code></pre>
+        </section>
+
+
+
+
+        <section>
+          <div class="header">
+            <span>Request URL and instantiate objects</span>
+          </div>
+          <div>
+           <img src="assets/images/camino_transformaciones_ejemplo_en.png">
+          </div>
+          <pre>
+            <code data-trim data-noescape>
+<span class="fragment">fromEvent(button, 'click')</span>
+  <span class="fragment">.pipe(</span>
+    <span class="fragment">map(() => 'https://example.com/api/classification'),</span>
+    <span class="fragment">flatMap(url => http.get(url)),</span>
+    <span class="fragment">map(items => items.map(new MyItem(item))))</span>
+  <span class="fragment">.subscribe(instances => this.list = instances);</span>
+            </code>
+          </pre>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Request URL and instantiate objects</span>
+          </div>
+          <span>Auto refresh</span>
+          <pre>
+            <code data-trim data-noescape>
+<span>fromEvent(button, 'click')</span>
+  <span class="fragment">.pipe(</span>
+    <span class="fragment">merge(interval(60000)),</span>
+    <span class="fragment">map(() => 'https://example.com/api/classification'),
+    flatMap(url => http.get(url)),
+    map(items => items.map(new MyItem(item))))
+  .subscribe(instances => this.list = instances);</span>
+            </code>
+          </pre>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Request URL and instantiate objects</span>
+          </div>
+          <span>Deactivatable auto refresh</span>
+          <pre>
+            <code data-trim data-noescape>
+<span class="fragment">interval(60000)</span>
+  <span class="fragment">.pipe(</span>
+    <span class="fragment">filter(() => this.autorefresh),</span>
+    <span class="fragment">merge(fromEvent(button, 'click')),</span>
+    <span class="fragment">map(() => 'https://example.com/api/classification',
+    flatMap(url => http.get(url)),
+    map(items => items.map(new MyItem(item)))))
+  .subscribe(instances => this.list = instances);</span>
+            </code>
+          </pre>
+        </section>
+
+
+
+
+        <section>
+          <div class="header">
+            <span>Request URL and instantiate objects</span>
+          </div>
+          <span>Deactivatable auto refresh and error management.</span>
+          <pre>
+            <code data-trim data-noescape>
+<span class="fragment">interval(60000)</span>
+  <span class="fragment">.pipe(</span>
+    <span class="fragment">filter(() => this.autorefresh),</span>
+    <span class="fragment">merge(fromEvent(button, 'click')),
+    map(() => 'https://example.com/api/classification'),
+    flatMap(url => http.get(url)),
+    map(items => items.map(new MyItem(item))))
+  <span class="fragment">.catch(err => of(this.list))
+  .subscribe(instances => this.list = instances);</span>
+            </code>
+          </pre>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>Why Reactive Programming</span>
+          </div>
+         <ul>
+            <li class="fragment">You can express from simple reactions to extremely complex reactions to change.</li>
+            <li class="fragment">No more hells.</li>
+            <li class="fragment">Observables <i>resolve</i> as many times as needed.</li>
+            <li class="fragment">Execution flow is intuitive <sup>*</sup>.</li>
+            <li class="fragment">It's lazy.</li>
+            <li class="fragment">It's cancellable.</li>
+          </ul>
+
+          <aside class="notes">
+          <ul>
+            <li>Callbacks only express simple reactons.</Li>
+            <li>Reactive Programming is not about nesting code.</Li>
+            <li>Observables emmit values, not just one.</Li>
+            <li>Just read the pipe! For complex pipes is not so obvious, but I bet it would be worse with promises. Of course you have to be used to operators.</Li>
+            <li>And could be not lazy</Li>
+            <li>Save your resources!</Li>
+          </ul>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>When to use Reactive Programming?</span>
+          </div>
+          <ul>
+            <li class="fragment">With many ashynchonous data sources.</li>
+            <li class="fragment">Complex interactions.</li>
+            <li class="fragment">Complex interdependency.</li>
+            <li class="fragment">To avoid internal state to manage asynchronous events.</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>Because with Reactive Programming is easier to manage many data sources.</li>
+              <li>Because it's easy to program complex interactions with Reactive Programing plumbing</li>
+              <li>Same as before: plumbing makes those things easy.</li>
+              <li>Reactive Programming can help to remove some internal states because that functionality is done by operators and Observables. Remember the button killer example? Doing that with promises or callbacks would need some timers and keeping some internal state.</li>
+            </ul>
+            <br>
+            <br>
+            <strong>I want to share my personal experience.</strong>
+          </aside>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>WorldArchery App</span>
+          </div>
+          <img src="assets/images/wa.png">
+
+          <aside class="notes">
+            <ul>
+              <li>This is the mobile app fo the World Archery Federation, one of our clients.</li>
+              <li>You see three dropdowns, each is dependant on previous: if you change, the next dropdowns change.</li>
+              <li>Data is not just retrieved from and endpoint, we need some previous data to render sropdowns (identifiers, labels, etc), so we have dependant data. You could argue that API should be simpler to use and I would agree, but it wasn't the case and we had to stick to already existent API.</li>
+              <li>Data is refreshed, sometimes very often. While this view is pretty static, the underlaying library that access API is prepared to refresh data automatically and on demand. This would affect the displayed data. <br>App should work offline, so library builds a local data repository with the fetched data, requesting fresh data when it's outdated.</li>
+              <li>This resulted in a pretty asynchronous hell. We worked on this with AngularJS without reactive programming: we lost some mental health those days. Then we did it again with Angular using Reactive Programming, and although it was hard because we had to learn how to use it, the asynchronous hell just became a complex but funny problem to solve.</li>
+            </ul>
+            <br>
+            <br>
+            Get the application for <a href="https://play.google.com/store/apps/details?id=org.worldarchery.live">Android</a> or <a href="https://itunes.apple.com/us/app/world-archery/id825608776">iOS</a>.
+          </aside>
+        </section>
+
+
+
+
+        <section>
+          <div class="header">
+            <span>Observables notes</span>
+          </div>
+          <ul>
+            <li class="fragment">They are not EventEmitter.</li>
+            <li class="fragment">Can be asyncronous or synchronous.</li>
+            <li class="fragment">Can be cold o hot.</li>
+            <li class="fragment">Can be multicast o unicast.</li>
+            <li class="fragment">Can share or not the data source with their subscriptors.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <span>Why to adopt?</span>
+          </div>
+
+            <div class="fragment">
+              Because others have already done it.
+              <br>
+              <img src="assets/images/adopters.png">
+            </div>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Why to adopt?</span>
+          </div>
+          <ul>
+            <li class="fragment">It can express very complex models.</li>
+            <li class="fragment">It handles any data source.</li>
+            <li class="fragment">Observables: proposed for standard, currently in stage 1.</li>
+            <li class="fragment">Less code, improved maintanibility.</li>
+            <li class="fragment">Available in many languages.</li>
+            <li class="fragment">Asynchronicity.</li>
+          </ul>
+          <aside class="notes">
+            <strong>If you deal with asynchronicity you probably may beneficit using Reactive Programming.</strong>
+          </aside>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Links</span>
+          </div>
+          <ul>
+            <li class="fragment">The introduction to Reactive Programming you've been missing: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754</li>
+            <li class="fragment">Interactive marble diagrams: http://rxmarbles.com/</li>
+            <li class="fragment">Rx Visualizer: https://rxviz.com/</li>
+            <li class="fragment">ReactiveX: http://reactivex.io/</li>
+            <li class="fragment">Ben Lesh: https://medium.com/@benlesh/</li>
+          </ul>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Questions?</span>
+          </div>
+        </section>
+
+
+
+        <section>
+          <div class="header">
+            <span>Thanks!</span>
+          </div>
+        </section>
+
+
+        <section>
+          <div class="header">
+            <img src="assets/images/metadrop-logo.svg" class="metadrop-logo">
+            <br/>
+            <span>We are hiring!</span>
+          </div>
+        </section>
+
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+
+          setTimeout(() => Reveal.slide(25), 100);
+    </script>
+  </body>
+</html>

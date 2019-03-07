@@ -1,0 +1,111 @@
+.reveal section .small {
+  font-size: 0.8em;
+}
+.reveal section .xsmall {
+  font-size: 0.6em;
+}
+
+.reveal section .xxsmall {
+  font-size: 0.4em;
+}
+
+.reveal section .header {
+  font-size: 2.4em;
+}
+
+.reveal section pre {
+  width: 100%;
+  box-shadow: 0px 0px 0px 0px;
+  margin: -20px auto;
+  font-size: 0.65em;
+}
+
+.reveal section code {
+  max-height: 500px;
+}
+
+
+.reveal section .wrap-ovl {
+    color: #eee;
+    background: rgba(14, 14, 14, 0.5);
+    text-align: center;
+    padding: 1em;
+}
+
+a.ddlink {
+  color: #fff;
+}
+
+.wrap-ovl a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+.reveal section img.profile-photo {
+  max-width: 120px;
+  border-radius: 50%;
+  border: 7px solid #35107e;
+}
+
+.reveal section img.metadrop-logo {
+  max-width: 200px;
+}
+
+.reveal section img.source-widget {
+  position: relative;
+  top: -72px;
+}
+
+.sponsor {
+  width: 100%;
+  color: #aaa;
+  background-color: #2c4a55;
+}
+
+.sponsor.up {
+  position: absolute;
+  top: 0;
+  left: -0;
+}
+
+.sponsor.down {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.sponsor img {
+    position: relative;
+    top: 2px;
+    width: 80px;
+    float: left;
+}
+.sponsor span {
+  line-height: 40px;
+  height: 40px;
+  float: left;
+  display: block;
+  font-weight: bold;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  margin-left: 2em;
+}
+.sponsor a,
+.sponsor a:hover,
+.sponsor a:visited {
+  color: blue;
+  text-decoration: red;
+}
+
+.reveal section .spacer {
+  height: 200px;
+}
+
+.reveal section .session-title {
+ font-size: 1.1em;
+}
+
+
