@@ -29,6 +29,7 @@
     <div class="sponsor down">
       <span>Reactive Programming: Dealing with Asynchronicity<strong>&nbsp; @sanzante</strong></span>
     </div>
+
     <div class="reveal">
       <div class="slides">
         <section  data-background-image="assets/images/portada.jpg" class="fframe">
@@ -49,8 +50,6 @@
           <div class="spacer">
         </section>
 
-
-
         <section>
             <img src="assets/images/sanzante.jpg" class="profile-photo">
             <p>
@@ -65,6 +64,29 @@
             <img src="assets/images/metadrop-logo.svg" class="metadrop-logo">
         </section>
 
+
+
+        <section>
+          <div class="header">
+            <span>Walktrough</span>
+          </div>
+          <ul>
+            <li>Intro.</li>
+            <li>Approaches to deal with asynchronicity.</li>
+            <li>Reactive Programming.</li>
+            <li>Plumbing!</li>
+            <li>Observables.</li>
+            <li>Operators.</li>
+            <li>Code examples.</li>
+            <li>Final notes.</li>
+          </ul>
+        </section>
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Introduction</span>
+          </div>
+        </section>
 
 
         <section>
@@ -112,13 +134,21 @@
             <li>Workers.</li>
           </ul>
           <aside class="notes">
-              Events that happen over time that we can't predict. This is very common in the browser because it's an asynchronous environment. If we examine a Drupal request we find that the exeuction path is more o less predictible (complex but predictible), and data is available when needed (when a database query is done we asume that result, success or failure, is available in the next line of code, the same for reading a file). In browser this is not true. We don't know when many operations will return their data: AJAX operations are the main example, but it's the same for workers, for example. User interaction, WebSockets, timers and animations are other sources of asynchronicty.
+              Events that happen over time that we can't predict. This is very common in the browser because it's an asynchronous environment. If we examine a Drupal request we find that the exeuction path is more o less predictible (complex but predictible), and data is available when needed (when a database query is done we asume that result, success or failure, is available in the next line of code, the same for reading a file). In browser this is not true. We don't know when many operations will return their data: AJAX operations are the main example, but it's the same for workers, for example. User interaction, WebSockets, timers and animations are other sources of asynchronicity.
             <br>
             <br>
-            <strong>How we can manage this uncertainty, this asynchronicty?</strong>
+            <strong>How we can manage this uncertainty, this asynchronicity?</strong>
 
           </aside>
         </section>
+
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Dealing with asynchronicity</span>
+          </div>
+        </section>
+
 
         <section>
           <div class="header">
@@ -254,6 +284,16 @@ doc = memResponse;
         </section>
 
 
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Plumbing!</span>
+          </div>
+          <img style="width: 600px" src="assets/images/pipeall.jpg">
+          <!-- Image from https://blog.hackages.io/rxjs-5-5-piping-all-the-things-9d469d1b3f44 -->
+        </section>
+
+
+
         <section>
           <div class="header">
             <span>Plumbing!</span>
@@ -323,6 +363,23 @@ jQuery('#grip').click(function() {
 
           <strong>Well, now we have to take a deep breath to get into the thick part of the talk. How do we create these data pipes? How do we declare the reactions to change?</strong>
           </aside>
+        </section>
+
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Breath pause</span>
+            <br>
+            <img src="assets/images/breath.gif">
+          </div>
+        </section>
+
+
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Observables and Operators</span>
+          </div>
         </section>
 
 
@@ -427,6 +484,15 @@ jQuery('#grip').click(function() {
           </aside>
         </section>
 
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Code examples</span>
+            <video src="https://i.giphy.com/media/YQitE4YNQNahy/giphy.mp4" autoplay="" loop="" muted="" playsinline="" onerror="this.onerror=()=>{};this.src='https://i.giphy.com/YQitE4YNQNahy.mp4';">
+                <img src="https://i.giphy.com/YQitE4YNQNahy.gif " alt="">
+            </video>
+          </div>
+        </section>
 
 
         <section>
@@ -599,7 +665,7 @@ jQuery('#grip').click(function() {
           <div class="header">
             <span>Request URL and instantiate objects</span>
           </div>
-          <span>Deactivatable auto refresh</span>
+          <span>Optional auto refresh </span>
           <pre>
             <code data-trim data-noescape>
 <span class="fragment">interval(60000)</span>
@@ -621,7 +687,7 @@ jQuery('#grip').click(function() {
           <div class="header">
             <span>Request URL and instantiate objects</span>
           </div>
-          <span>Deactivatable auto refresh and error management.</span>
+          <span>Optional auto refresh and error management.</span>
           <pre>
             <code data-trim data-noescape>
 <span class="fragment">interval(60000)</span>
@@ -636,6 +702,14 @@ jQuery('#grip').click(function() {
             </code>
           </pre>
         </section>
+
+
+        <section  data-background-image="assets/images/portada.jpg" class="fframe">
+          <div class="header">
+            <span>Final notes</span>
+          </div>
+        </section>
+
 
 
         <section>
@@ -693,13 +767,13 @@ jQuery('#grip').click(function() {
           <div class="header">
             <span>WorldArchery App</span>
           </div>
-          <img src="assets/images/wa.png">
+          <img style="width: 200px" src="assets/images/WA_app_ranking.gif">
 
           <aside class="notes">
             <ul>
               <li>This is the mobile app fo the World Archery Federation, one of our clients.</li>
               <li>You see three dropdowns, each is dependant on previous: if you change, the next dropdowns change.</li>
-              <li>Data is not just retrieved from and endpoint, we need some previous data to render sropdowns (identifiers, labels, etc), so we have dependant data. You could argue that API should be simpler to use and I would agree, but it wasn't the case and we had to stick to already existent API.</li>
+              <li>Data is not just retrieved from and endpoint, we need some previous data to render dropdowns (identifiers, labels, etc), so we have dependant data. You could argue that API should be simpler to use and I would agree, but it wasn't the case and we had to stick to already existent API.</li>
               <li>Data is refreshed, sometimes very often. While this view is pretty static, the underlaying library that access API is prepared to refresh data automatically and on demand. This would affect the displayed data. <br>App should work offline, so library builds a local data repository with the fetched data, requesting fresh data when it's outdated.</li>
               <li>This resulted in a pretty asynchronous hell. We worked on this with AngularJS without reactive programming: we lost some mental health those days. Then we did it again with Angular using Reactive Programming, and although it was hard because we had to learn how to use it, the asynchronous hell just became a complex but funny problem to solve.</li>
             </ul>
@@ -708,7 +782,6 @@ jQuery('#grip').click(function() {
             Get the application for <a href="https://play.google.com/store/apps/details?id=org.worldarchery.live">Android</a> or <a href="https://itunes.apple.com/us/app/world-archery/id825608776">iOS</a>.
           </aside>
         </section>
-
 
 
 
@@ -724,7 +797,6 @@ jQuery('#grip').click(function() {
             <li>Can share or not the data source with their subscriptors.</li>
           </ul>
         </section>
-
 
         <section>
           <div class="header">
